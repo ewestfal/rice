@@ -16,7 +16,6 @@
 package org.kuali.rice.kew.routeheader.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
@@ -92,18 +91,6 @@ public class RouteHeaderServiceImpl implements RouteHeaderService {
     }
 
     public DocumentRouteHeaderValue saveRouteHeader(DocumentRouteHeaderValue routeHeader) {
-        if ( LOG.isDebugEnabled() ) {
-            LOG.debug( "About to Save the route Header: " + routeHeader.getDocumentId() + " / version="
-                    + routeHeader.getVersionNumber() );
-            DocumentRouteHeaderValue currHeader = getDataObjectService().find(DocumentRouteHeaderValue.class,
-                    routeHeader.getDocumentId());
-            if ( currHeader != null ) {
-                LOG.debug( "Current Header Version: " + currHeader.getVersionNumber() );
-            } else {
-                LOG.debug( "Current Header: null" );
-            }
-            LOG.debug( ExceptionUtils.getStackTrace(new Throwable()) );
-        }
         try {
             // before saving, copy off the document content, since it's transient it will get erased during a JPA merge
             DocumentRouteHeaderValueContent content = routeHeader.getDocumentContent();
