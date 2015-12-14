@@ -67,7 +67,18 @@ public class ConfigContext {
      * @return the Config object which is associated with the caller's context classloader
      */
     public static Config getCurrentContextConfig() {
-    	return getConfig(Thread.currentThread().getContextClassLoader());
+    	return getConfigHierarchically(Thread.currentThread().getContextClassLoader());
+    }
+
+    private static Config getConfigHierarchically(ClassLoader cl) {
+        if (cl == null) {
+            return null;
+        }
+        Config config = getConfig(cl);
+        if (config != null) {
+            return config;
+        }
+        return getConfigHierarchically(cl.getParent());
     }
 
     /**
